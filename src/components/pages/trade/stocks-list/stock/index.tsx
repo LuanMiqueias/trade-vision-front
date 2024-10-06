@@ -1,6 +1,5 @@
-import Logo from '../../../assets/images/logo.png'
 import Number from '../../../../common/number'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface StockCardProps {
   stokeName: string;
@@ -14,7 +13,6 @@ const StockCard: React.FC<StockCardProps> = ({
   stockCompany,
   value,
   variationPercent,
-  variationDolar
 }) => {
   return (
     <Card>

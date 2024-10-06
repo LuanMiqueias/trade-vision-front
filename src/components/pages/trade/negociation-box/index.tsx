@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Stocks } from "@/http/requests/stocks.request"
 import { StockItemType } from "@/http/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { AxiosError } from 'axios';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import useMeasure from 'react-use-measure'
@@ -116,24 +116,39 @@ const NegociationBox: React.FC<NegociationBoxProps> = ({
           }}
         >
           <CardContent className="overflow" ref={ref}>
-            <Select disabled={isLoading}
-              value={stockSelect?.symbol || ''} defaultValue=""
-              onValueChange={(v) => {
-                const stock = stocksList?.find(item => item.symbol === v)
-                stock && setStockSelect(stock)
-              }}
-              autoComplete="stock"
-            >
-              <SelectTrigger className="w-full ">
-                <div className="flex items-center gap-2">
-                  <p className="text-xs py-2 text-gray-500">Select Stock:</p>
-                  <SelectValue placeholder="" className="text-gray-600" />
+            <div className="flex justify-between items-start gap-4">
+              <Select disabled={isLoading}
+                value={stockSelect?.symbol || ''} defaultValue=""
+                onValueChange={(v) => {
+                  const stock = stocksList?.find(item => item.symbol === v)
+                  stock && setStockSelect(stock)
+                }}
+                autoComplete="stock"
+              >
+
+                <div className="flex flex-col w-full  gap-2">
+                  <p className="text-xs text-gray-500">Select Stock:</p>
+                  <SelectTrigger className="w-full ">
+                    <div className="flex items-center gap-2">
+                      <SelectValue placeholder="" className="text-gray-600" />
+                    </div>
+                  </SelectTrigger>
                 </div>
-              </SelectTrigger>
-              <SelectContent >
-                {stocksList?.map(item => <SelectItem value={item?.symbol}>{item.symbol}</SelectItem>)}
-              </SelectContent>
-            </Select >
+                <SelectContent>
+                  {stocksList?.map(item => <SelectItem value={item?.symbol}>{item.symbol}</SelectItem>)}
+                </SelectContent>
+              </Select >
+              <div className="flex flex-col gap-2 text-xs justify-between">
+                <label className="text-xs text-gray-500">Quantity:</label>
+                <Input
+                  className="w-[80px]"
+                  placeholder="0" type="number"
+                  value={quantity || ''}
+                  onChange={(e) => {
+                    setQuantity(+e?.target?.value)
+                  }} />
+              </div>
+            </div>
             {
               !!stockSelect?.id && <>
                 <motion.div
@@ -141,7 +156,8 @@ const NegociationBox: React.FC<NegociationBoxProps> = ({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{
-                    duration: 0.4,
+                    duration: 0.2,
+                    delay: 0.2
                   }}
                 >
                   <span className="block w-[calc(100% + 32px)] mx-[-24px] my-6 h-[1px] bg-zinc-800" />
@@ -159,15 +175,46 @@ const NegociationBox: React.FC<NegociationBoxProps> = ({
                 </motion.div>
               </>
             }
-            <span className="block w-[calc(100% + 32px)] mx-[-24px] my-6 h-[1px] bg-zinc-800" />
+            {/* <span className="block w-[calc(100% + 32px)] mx-[-24px] my-6 h-[1px] bg-zinc-800" /> */}
 
-            <Input
-              placeholder="Quantity" type="number"
-              value={quantity || ''}
-              onChange={(e) => {
-                setQuantity(+e?.target?.value)
-              }} />
 
+            {!!(quantity && !!stockSelect) && <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.2,
+                  delay: 0.2
+                }}
+              >
+                <span className="block w-[calc(100% + 32px)] mx-[-24px] my-6 h-[1px] bg-zinc-800" />
+                <div className="flex gap-2 flex-col">
+                  <CardHeader className="p-0">
+                    <CardTitle className="font-regular text-sm text-gray-300">
+                      Resume:
+                    </CardTitle>
+                  </CardHeader>
+                  <Card className="">
+                    <CardContent className=" px-5 py-4 space-y-2">
+                      <div className="flex justify-between text-xs text-gray-500">Stock:
+                        <span className="text-gray-300 text-sm" title={stockSelect?.name}>{stockSelect?.symbol}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-500">Quantity:
+                        <Number value={quantity} className="text-gray-300 text-sm" />
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-500">Price:
+                        <Number prefix="$" value={+stockSelect?.price} decimals={2} className="text-gray-300 text-sm" />
+                      </div>
+
+                      <div className="flex justify-between text-xs text-gray-500">Total:
+                        <Number prefix="$" value={quantity * (+stockSelect?.price)} decimals={2} className="text-gray-300 text-sm" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </motion.div>
+            </>}
           </CardContent >
         </motion.div >
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import StockCard from "./stock"
 import { Stocks } from "@/http/requests/stocks.request";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
 import SkeletonLoading from "@/components/common/skeleton-loading";
 
