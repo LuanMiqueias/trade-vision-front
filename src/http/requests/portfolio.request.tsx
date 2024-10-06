@@ -1,10 +1,9 @@
-import api from "../api"
 import { PortfolioItemType } from "../types";
+import { API } from "./request";
 
 export class Portfolio {
-
   static fetchPortfolio = async () => {
-    const { data } = await api.get<{ portfolios: PortfolioItemType[] }>('/portfolio');
+    const { data } = await API.get<{ portfolios: PortfolioItemType[] }>('/portfolio');
     return data.portfolios
   }
 }

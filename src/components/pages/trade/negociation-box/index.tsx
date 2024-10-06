@@ -135,7 +135,14 @@ const NegociationBox: React.FC<NegociationBoxProps> = ({
                   </SelectTrigger>
                 </div>
                 <SelectContent>
-                  {stocksList?.map(item => <SelectItem value={item?.symbol}>{item.symbol}</SelectItem>)}
+                  {stocksList?.map(item =>
+                    <SelectItem value={item?.symbol} className=" w-full flex-1" >
+                      <div className="flex gap-2 items-center">
+                        <span className="">{item?.symbol}</span>
+                        {" • "}
+                        <Number prefix="$" decimals={2} value={+item?.price} className="text-xs text-gray-400" />
+                      </div>
+                    </SelectItem>)}
                 </SelectContent>
               </Select >
               <div className="flex flex-col gap-2 text-xs justify-between">

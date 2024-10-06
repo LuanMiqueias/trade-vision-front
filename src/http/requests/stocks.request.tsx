@@ -1,5 +1,5 @@
-import api from "../api"
 import { StockItemType } from "../types";
+import { API } from "./request";
 
 export class Stocks {
 
@@ -8,7 +8,7 @@ export class Stocks {
     skip: number,
     take: number
   }) => {
-    const { data } = await api.get<{ stocks: StockItemType[] }>(`/stocks?page=${dto.page}&skip=${dto.skip}&take=${dto.take}`);
+    const { data } = await API.get<{ stocks: StockItemType[] }>(`/stocks?page=${dto.page}&skip=${dto.skip}&take=${dto.take}`);
     return data.stocks
   }
 
@@ -16,7 +16,7 @@ export class Stocks {
     quantity: number,
     symbol: string,
   }) => {
-    const { data } = await api.post<{ stocks: StockItemType[] }>(`/trade/buy`, {
+    const { data } = await API.post<{ stocks: StockItemType[] }>(`/trade/buy`, {
       ...dto
     });
     return data.stocks
@@ -25,7 +25,7 @@ export class Stocks {
     quantity: number,
     symbol: string,
   }) => {
-    const { data } = await api.post<{ stocks: StockItemType[] }>(`/trade/sell`, {
+    const { data } = await API.post<{ stocks: StockItemType[] }>(`/trade/sell`, {
       ...dto
     });
     return data.stocks

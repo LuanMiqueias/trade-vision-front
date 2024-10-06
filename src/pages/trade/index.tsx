@@ -9,9 +9,8 @@ function Trade() {
 
   return (
     <>
-
       <Header />
-      <Container className="mt-0 flex flex-col gap-x-2 gap-y-10 lg:mt-8">
+      <Container className="mt-0 flex flex-col gap-x-2 gap-y-10 lg:mt-8  pb-6 ">
         <div className="flex justify-between flex-col items-start lg:flex-row lg:items-center gap-y-3 lg:gap-0">
           <BalanceBox />
           <StockCardList />
